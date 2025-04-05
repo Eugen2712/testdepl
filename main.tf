@@ -1,9 +1,9 @@
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-0d0f28110d16ee7d6"
+  ami           = "ami-00a929b66ed6e0de6"
   instance_type = "t2.micro"
   key_name      = "devops2"
 
