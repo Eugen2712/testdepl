@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-00a929b66ed6e0de6"
+  ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.micro"
   key_name      = "devops2"
 
@@ -15,10 +15,7 @@ resource "aws_instance" "web_server" {
 
   user_data = <<-EOF
               #!/bin/bash
-              amazon-linux-extras install epel
               yum update -y
-              PUBLIC_IP=$(curl -s https://api.ipify.org)
-              curl -X GET "https://devops:11653bd900a61a61152c8caab3b8f24def@jenkins-ops.portnov.com/job/ansible-task/buildWithParameters?token=Abc123456&MANAGED_HOST=$PUBLIC_IP"
               EOF
 }
 
@@ -31,14 +28,6 @@ resource "aws_security_group" "web_sg" {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
