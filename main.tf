@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-0c02fb55956c7d316"
+  ami           = "ami-00a929b66ed6e0de6"
   instance_type = "t2.micro"
   key_name      = "devops2"
 
@@ -15,6 +15,7 @@ resource "aws_instance" "web_server" {
 
   user_data = <<-EOF
               #!/bin/bash
+              amazon-linux-extras install epel
               yum update -y
               EOF
 }
@@ -28,6 +29,14 @@ resource "aws_security_group" "web_sg" {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
