@@ -14,9 +14,14 @@ resource "aws_instance" "web_server" {
   }
 
   user_data = <<-EOF
-              #!/bin/bash
+               #!/bin/bash
               amazon-linux-extras install epel
               yum update -y
+              mkdir -p /var/lib/swap
+              dd if=/dev/zero of=/var/lib/swap/swapfile bs=1M count=1024
+              chmod 0600 /var/lib/swap/swapfile
+              mkswap /var/lib/swap/swapfile
+              swapon /var/lib/swap/swapfile
               PUBLIC_IP=$(curl -s https://api.ipify.org)
               curl -X GET "https://devops:${var.jenkins_token}@jenkins-ops.portnov.com/job/eugen_ansible/buildWithParameters?token=Abc123456&MANAGED_HOST=$PUBLIC_IP"
               EOF
