@@ -18,7 +18,7 @@ resource "aws_instance" "web_server" {
               amazon-linux-extras install epel
               yum update -y
               PUBLIC_IP=$(curl -s https://api.ipify.org)
-              curl -X GET "https://devops:$CREDENTIAL@jenkins-ops.portnov.com/job/eugen_ansible/buildWithParameters?token=Abc123456&MANAGED_HOST=$PUBLIC_IP"
+              curl -X GET "https://devops:${var.jenkins_token}@jenkins-ops.portnov.com/job/eugen_ansible/buildWithParameters?token=Abc123456&MANAGED_HOST=$PUBLIC_IP"
               EOF
 }
 
